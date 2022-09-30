@@ -9,7 +9,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/list")
-public class ProjectControllers {
+public class ProjectController {
 
     @CrossOrigin("http://localhost:4200")
     @GetMapping(path = "/projects/{projectName}")
