@@ -1,9 +1,6 @@
 package com.example.Portfolio.entities.contact;
 
-import com.example.Portfolio.services.ContactService;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class ContactDTO {
