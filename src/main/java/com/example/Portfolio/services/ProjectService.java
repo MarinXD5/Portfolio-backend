@@ -21,7 +21,7 @@ public class ProjectService{
         Set<ProjectsDTO> projectsDTOS = new HashSet<>();
         
         try {
-            Document document = Jsoup.connect(consts.getUrl()).get();
+            Document document = Jsoup.connect(consts.getGITHUB_URL()).get();
             Elements elements = document.getElementsByTag("a");
 
                 for (Element ads : elements) {
@@ -29,14 +29,14 @@ public class ProjectService{
                         ProjectsDTO projectsDTO = new ProjectsDTO();
 
                         projectsDTO.setTitle(ads.attr("title"));
-                        projectsDTO.setHref(consts.getUrl() + "/tree/main/" + projectName);
+                        projectsDTO.setHref(consts.getGITHUB_URL() + "/tree/main/" + projectName);
 
-                        Document connectionMidProject = Jsoup.connect(consts.getUrl() + "/tree/main/" + projectName).get();
+                        Document connectionMidProject = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
                         Elements elementsMidProject = connectionMidProject.getElementsByTag("a");
 
                         for(Element adsNext : elementsMidProject){
                             if (adsNext.attr("title").equals("readme.md")){
-                                Document connectionReadmeMd = Jsoup.connect(consts.getUrl() + "/blob/main/" + projectName + "/readme.md").get();
+                                Document connectionReadmeMd = Jsoup.connect(consts.getGITHUB_URL() + "/blob/main/" + projectName + "/readme.md").get();
                                 Elements elementsReadmeMd = connectionReadmeMd.select("div#readme");
 
                                 for(Element adsReadme : elementsReadmeMd){
@@ -64,7 +64,7 @@ public class ProjectService{
         Set<ProjectsDTO> projectsDTOS = new HashSet<>();
 
         try{
-            Document document = Jsoup.connect(consts.getUrl()).get();
+            Document document = Jsoup.connect(consts.getGITHUB_URL()).get();
             Elements elements = document.getElementsByTag("a");
 
             for (Element ads : elements) {
@@ -75,7 +75,7 @@ public class ProjectService{
                     ProjectsDTO projectsDTO = new ProjectsDTO();
 
                     projectsDTO.setTitle(ads.attr("title"));
-                    projectsDTO.setHref(consts.getUrl() + "/");
+                    projectsDTO.setHref(consts.getGITHUB_URL() + "/");
 
                     projectsDTOS.add(projectsDTO);
                 }

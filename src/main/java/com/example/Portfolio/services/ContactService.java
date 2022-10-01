@@ -2,6 +2,10 @@ package com.example.Portfolio.services;
 
 import com.example.Portfolio.consts.Constants;
 import com.example.Portfolio.entities.contact.ContactDTO;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -9,44 +13,24 @@ import java.io.*;
 @Service
 public class ContactService {
     static Constants consts = new Constants();
+    public static ContactDTO getContact() throws IOException {
 
-    public static ContactDTO getVarContact(String content) throws IOException{
-        ContactDTO contentContact = new ContactDTO();
+        ContactDTO contact = new ContactDTO();
+        try{
+            Document document = Jsoup.connect(consts.getPASTEBIN_URL()).get();
+            Elements elements = document.select("li.li1");
 
-        for (int i = 0; i < content.length(); i++){
-            if(content.equals("Marin")){
-                contentContact.setFirstName("Marin");
+            for(Element element : elements){
+                String method = element.select("div#de1").text();
+                if(method.equals("Marin")){
+                    contact.setFirstName(method);
+                }
             }
-            if(content.equals("Jurlina")){
-                contentContact.setLastName("Jurlina");
-            }
-            if(content.equals("23.12.2000")){
-                contentContact.setDateOfBirth("23.12.2000");
-            }
-            if(content.equals("Test Description")){
-                contentContact.setDescription("Test Description");
-            }
-        }
-        return contentContact;
-    }
-
-    public static ContactDTO getContact() throws FileNotFoundException {
-
-        ContactDTO contactDTO = null;
-        try {
-            DataInputStream DIS = new DataInputStream(new FileInputStream(consts.getFileLocation()));
-
-            byte[] datainBytes = new byte[DIS.available()];
-            DIS.readFully(datainBytes);
-            DIS.close();
-
-            String content = new String(datainBytes, 0, datainBytes.length);
-
-            contactDTO = getVarContact(content);
-        } catch (Exception ex) {
+        } catch(IOException ex){
             ex.printStackTrace();
         }
-        return contactDTO;
-    }
 
+
+        return contact;
+    }
 }
