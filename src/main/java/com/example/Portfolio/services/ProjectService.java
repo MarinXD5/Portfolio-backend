@@ -44,6 +44,14 @@ public class ProjectService{
                                     String descFront = desc.substring(14);
                                     String descBack = descFront.substring(0, descFront.length()-4);
                                     projectsDTO.setDescription(descBack);
+
+                                    Document connectionForTime = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
+                                    Elements elementsForTime = connectionForTime.getElementsByClass("Box-header position-relative");
+
+                                    for(Element adsTime : elementsForTime){
+                                        String time = adsTime.select("no-wrap").toString();
+                                        projectsDTO.setDateModified(time);
+                                    }
                                 }
                             }
                         }
@@ -65,7 +73,7 @@ public class ProjectService{
 
         try{
             Document document = Jsoup.connect(consts.getGITHUB_URL()).get();
-            Elements elements = document.getElementsByTag("a");
+            Elements elements = document.getElementsByClass("js-navigation-open Link--primary");
 
             for (Element ads : elements) {
                 if (ads.attr("title").equals("") || ads.attr("title").equals("GitHub")){
