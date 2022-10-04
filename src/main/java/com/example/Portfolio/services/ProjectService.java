@@ -46,10 +46,10 @@ public class ProjectService{
                                     projectsDTO.setDescription(descBack);
 
                                     Document connectionForTime = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
-                                    Elements elementsForTime = connectionForTime.getElementsByClass("Box-header position-relative");
+                                    Elements elementsForTime = connectionForTime.getElementsByClass("Link--secondary ml-2");
 
                                     for(Element adsTime : elementsForTime){
-                                        String time = adsTime.select("no-wrap").toString();
+                                        String time = adsTime.getElementsByClass("no-wrap").text();
                                         projectsDTO.setDateModified(time);
                                     }
                                 }
