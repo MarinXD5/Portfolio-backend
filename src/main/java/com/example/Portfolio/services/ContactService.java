@@ -29,10 +29,10 @@ public class ContactService {
                     contact.setLastName(method);
                 }
                 else if (method.equals("23.12.2000")){
-                    contact.setDateOfBirth(method);
+                    contact.setDob(method);
                 }
                 else{
-                    contact.setDescription(method);
+                    contact.setPhone_number(method);
                 }
             }
         } catch(IOException ex){
