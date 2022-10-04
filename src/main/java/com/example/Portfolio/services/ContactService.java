@@ -18,12 +18,21 @@ public class ContactService {
         ContactDTO contact = new ContactDTO();
         try{
             Document document = Jsoup.connect(consts.getPASTEBIN_URL()).get();
-            Elements elements = document.select("li.li1");
+            Elements elements = document.getElementsByClass("li1");
 
-            for(Element element : elements){
-                String method = element.select("div#de1").text();
+            for(Element element : elements ){
+                String method = element.getElementsByClass("de1").text();
                 if(method.equals("Marin")){
                     contact.setFirstName(method);
+                }
+                else if (method.equals("Jurlina")){
+                    contact.setLastName(method);
+                }
+                else if (method.equals("23.12.2000")){
+                    contact.setDateOfBirth(method);
+                }
+                else{
+                    contact.setDescription(method);
                 }
             }
         } catch(IOException ex){
