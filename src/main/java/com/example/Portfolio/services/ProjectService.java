@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 @Service
 public class ProjectService{
-    static Logger logger;
     static Constants consts = new Constants();
 
     public static Set<ProjectsDTO> getProjectsByTitle(String projectName) {
@@ -60,7 +59,6 @@ public class ProjectService{
                     }
                 }
         } catch (IOException ex) {
-            logger.warning("The provided project name is invalid...Try again!");
             ex.printStackTrace();
         }
 
@@ -76,9 +74,7 @@ public class ProjectService{
             Elements elements = document.getElementsByClass("js-navigation-open Link--primary");
 
             for (Element ads : elements) {
-                if (ads.attr("title").equals("") || ads.attr("title").equals("GitHub")){
-                    continue;
-                }
+                if (ads.attr("title").equals("") || ads.attr("title").equals("GitHub")){}
                 else{
                     ProjectsDTO projectsDTO = new ProjectsDTO();
 
@@ -89,7 +85,6 @@ public class ProjectService{
                 }
             }
         }catch(IOException ex){
-            logger.warning("The provided project name is invalid...Try again!");
             ex.printStackTrace();
         }
         return projectsDTOS;
