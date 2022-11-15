@@ -23,41 +23,43 @@ public class ProjectService{
             Document document = Jsoup.connect(consts.getGITHUB_URL()).get();
             Elements elements = document.getElementsByTag("a");
 
-                for (Element ads : elements) {
-                    if (ads.attr("title").equals(projectName)) {
-                        ProjectsDTO projectsDTO = new ProjectsDTO();
+            for (Element ads : elements) {
+                if (ads.attr("title").equals(projectName)) {
+                    ProjectsDTO projectsDTO = new ProjectsDTO();
 
-                        projectsDTO.setTitle(ads.attr("title"));
-                        projectsDTO.setHref(consts.getGITHUB_URL() + "/tree/main/" + projectName);
+                    projectsDTO.setTitle(ads.attr("title"));
+                    projectsDTO.setHref(consts.getGITHUB_URL() + "/tree/main/" + projectName);
 
-                        Document connectionMidProject = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
-                        Elements elementsMidProject = connectionMidProject.getElementsByTag("a");
+                    Document connectionMidProject = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
+                    Elements elementsMidProject = connectionMidProject.getElementsByTag("a");
 
-                        for(Element adsNext : elementsMidProject){
-                            if (adsNext.attr("title").equals("readme.md")){
-                                Document connectionReadmeMd = Jsoup.connect(consts.getGITHUB_URL() + "/blob/main/" + projectName + "/readme.md").get();
-                                Elements elementsReadmeMd = connectionReadmeMd.select("div#readme");
+                    for(Element adsNext : elementsMidProject){
+                        if (adsNext.attr("title").equals("readme.md")){
+                            Document connectionReadmeMd = Jsoup.connect(consts.getGITHUB_URL() + "/blob/main/" + projectName + "/readme.md").get();
+                            Elements elementsReadmeMd = connectionReadmeMd.select("div#readme");
 
-                                for(Element adsReadme : elementsReadmeMd){
-                                    String desc = adsReadme.select("p").toString();
-                                    String descFront = desc.substring(14);
-                                    String descBack = descFront.substring(0, descFront.length()-4);
-                                    projectsDTO.setDescription(descBack);
+                            for(Element adsReadme : elementsReadmeMd){
+                                String desc = adsReadme.select("p").toString();
+                                String descFront = desc.substring(14);
+                                String descBack = descFront.substring(0, descFront.length()-4);
+                                projectsDTO.setDescription(descBack);
 
-                                    Document connectionForTime = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
-                                    Elements elementsForTime = connectionForTime.getElementsByClass("Link--secondary ml-2");
+                                Document connectionForTime = Jsoup.connect(consts.getGITHUB_URL() + "/tree/main/" + projectName).get();
+                                Elements elementsForTime = connectionForTime.getElementsByClass("Link--secondary ml-2");
 
-                                    for(Element adsTime : elementsForTime){
-                                        String time = adsTime.getElementsByClass("no-wrap").text();
-                                        projectsDTO.setDateModified(time);
-                                    }
+                                for(Element adsTime : elementsForTime){
+                                    String time = adsTime.getElementsByClass("no-wrap").text();
+                                    projectsDTO.setDateModified(time);
                                 }
                             }
                         }
-
-                        projectsDTOS.add(projectsDTO);
                     }
+
+                    projectsDTOS.add(projectsDTO);
                 }
+            }
+
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -79,7 +81,7 @@ public class ProjectService{
                     ProjectsDTO projectsDTO = new ProjectsDTO();
 
                     projectsDTO.setTitle(ads.attr("title"));
-                    projectsDTO.setHref(consts.getGITHUB_URL() + "/");
+                    projectsDTO.setHref(consts.getGITHUB_URL() +  "/tree/main/" + projectsDTO.getTitle());
 
                     projectsDTOS.add(projectsDTO);
                 }
